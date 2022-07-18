@@ -12,7 +12,7 @@ export async function checkCredential(label: string, userId: number) {
     }})
 }
 
-export async function getAllCrendentialById(userId: number) {
+export async function getAllCrendentialByUserId(userId: number) {
     return await db.credentials.findMany({
         where:{
             userId: userId
@@ -28,3 +28,21 @@ export async function getCrendentialByLabel(userId: number, label: string) {
         }
     })
 }
+
+export async function deleteCredentialById(userId: number, id: number) {
+    const findById = await db.credentials.findFirst({
+        where:{
+            id: id
+        }
+    })
+    if(!findById){
+        throw {type: "Credential not found", status: 404}
+    }
+    await db.credentials.deleteMany({
+        where:{
+            userId: userId,
+            id: id
+        }
+    })
+}
+
