@@ -16,8 +16,11 @@ export async function createNewCredential(userId: number,label: string, url: str
 
 export async function getCredential(userId:number, label?: string) {
     if(label){
-        const cryptr = new Cryptr(process.env.KEY)
         const credential = await getCrendentialByLabel(userId, label)
+        if(!credential){
+            throw {type: "Wrong credential label", status: 404}
+        }
+        const cryptr = new Cryptr(process.env.KEY)
         const cleanPassword = cryptr.decrypt(credential.password)
         return {...credential, password: cleanPassword}
     }else{
