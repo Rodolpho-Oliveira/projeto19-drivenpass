@@ -7,6 +7,7 @@ import {errorHandler} from "../middlewares/errorHandleMiddleware.js"
 import credentialRouter from "../routes/credentialRoute.js";
 import SecurenoteRouter from "../routes/secureNotesRoute.js";
 import cardRouter from "../routes/cardRoute.js";
+import wifiRouter from "../routes/wifiRoute.js";
 
 dotenv.config()
 
@@ -19,6 +20,7 @@ app.use(userRouter)
 app.use(credentialRouter)
 app.use(SecurenoteRouter)
 app.use(cardRouter)
+app.use(wifiRouter)
 
 app.use(errorHandler)
 
