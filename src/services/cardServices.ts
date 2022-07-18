@@ -9,6 +9,9 @@ export async function createNewCard(title: string,userId: number, securityCode: 
     if(check){
         throw {type: "Card already exist", status: 400}
     }
+    if(type !== "credit" && type !== "debit" && type !== "credit and debit"){
+        throw {type: "Wrong card type", status: 400}
+    }
     const cryptr = new Cryptr(process.env.KEY)
     const encryptedPassword = cryptr.encrypt(password);
     const encryptedSecurityCode = cryptr.encrypt(securityCode);
