@@ -5,12 +5,16 @@ dotenv.config()
 
 export async function createNewCard(title: string,userId: number, securityCode: string, number: string, name: string, password: string, expirationDate: string, isVirtual: boolean, type: string) {
     const check = await checkCard(title, userId)
-    console.log(check)
+    const regex = /^(0[1-9]|1[0-2])\/?([0-9]{2})$/
+    const expirationTest = regex.test(expirationDate)
+    if(!expirationTest){
+        throw {type: "Wrong expiration date", status: 401}
+    }
     if(check){
         throw {type: "Card already exist", status: 400}
     }
     if(type !== "credit" && type !== "debit" && type !== "credit and debit"){
-        throw {type: "Wrong card type", status: 400}
+        throw {type: "Wrong card type", status: 401}
     }
     const cryptr = new Cryptr(process.env.KEY)
     const encryptedPassword = cryptr.encrypt(password);
