@@ -32,6 +32,7 @@ export async function getCrendentialByLabel(userId: number, label: string) {
 export async function deleteCredentialById(userId: number, id: number) {
     const findById = await db.credentials.findFirst({
         where:{
+            userId: userId,
             id: id
         }
     })
