@@ -1,6 +1,6 @@
 import Cryptr from "cryptr"
 import dotenv from "dotenv"
-import { checkCredential, deleteCredentialById, getAllCrendentialByUserId, getCrendentialByLabel, insertCredential } from "../repositories/credentialRepository.js";
+import { checkCredential, deleteCredentialById, getAllCredentialByUserId, getCredentialByLabel, insertCredential } from "../repositories/credentialRepository.js";
 dotenv.config()
 
 export async function createNewCredential(userId: number,label: string, url: string, username: string, password: string) {
@@ -16,7 +16,7 @@ export async function createNewCredential(userId: number,label: string, url: str
 
 export async function getCredential(userId:number, label?: string) {
     if(label){
-        const credential = await getCrendentialByLabel(userId, label)
+        const credential = await getCredentialByLabel(userId, label)
         if(!credential){
             throw {type: "Wrong credential label", status: 404}
         }
@@ -24,7 +24,7 @@ export async function getCredential(userId:number, label?: string) {
         const cleanPassword = cryptr.decrypt(credential.password)
         return {...credential, password: cleanPassword}
     }else{
-        const credentials = await getAllCrendentialByUserId(userId)
+        const credentials = await getAllCredentialByUserId(userId)
         const cryptr = new Cryptr(process.env.KEY)
 
         const passwordCredential = credentials.map(cred => { 

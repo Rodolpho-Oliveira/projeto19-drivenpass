@@ -35,8 +35,8 @@ model cards {
   title String
   number String
   name String
-  securityCode Int
-  expirationDate DateTime
+  securityCode String
+  expirationDate String
   password String
   isVirtual Boolean
   type String

@@ -5,14 +5,13 @@ export async function insertCredential(userId: number, url: string, username: st
 }
 
 export async function checkCredential(label: string, userId: number) {
-    console.log(label)
     return await db.credentials.findFirst({where: {
         title: label,
         userId: userId
     }})
 }
 
-export async function getAllCrendentialByUserId(userId: number) {
+export async function getAllCredentialByUserId(userId: number) {
     return await db.credentials.findMany({
         where:{
             userId: userId
@@ -20,7 +19,7 @@ export async function getAllCrendentialByUserId(userId: number) {
     })
 }
 
-export async function getCrendentialByLabel(userId: number, label: string) {
+export async function getCredentialByLabel(userId: number, label: string) {
     return await db.credentials.findFirst({
         where:{
             userId: userId,
