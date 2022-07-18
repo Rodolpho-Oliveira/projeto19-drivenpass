@@ -5,7 +5,11 @@ dotenv.config()
 
 export async function createNewCredential(userId: number,label: string, url: string, username: string, password: string) {
     const check = await checkCredential(label, userId)
-    console.log(check)
+    const regex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi
+    const regexTest = regex.test(url)
+    if(!regexTest){
+        throw {type: "Wrong url", status: 401}
+    }
     if(check){
         throw {type: "Credential already exist", status: 400}
     }
