@@ -11,3 +11,20 @@ export async function checkCredential(label: string, userId: number) {
         userId: userId
     }})
 }
+
+export async function getAllCrendentialById(userId: number) {
+    return await db.credentials.findMany({
+        where:{
+            userId: userId
+        }
+    })
+}
+
+export async function getCrendentialByLabel(userId: number, label: string) {
+    return await db.credentials.findFirst({
+        where:{
+            userId: userId,
+            title: label
+        }
+    })
+}

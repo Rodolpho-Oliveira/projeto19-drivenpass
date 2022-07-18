@@ -1,6 +1,6 @@
 import Cryptr from "cryptr"
 import dotenv from "dotenv"
-import { checkCredential, insertCredential } from "../repositories/credentialRepository.js";
+import { checkCredential, getAllCrendentialById, getCrendentialByLabel, insertCredential } from "../repositories/credentialRepository.js";
 dotenv.config()
 
 export async function createNewCredential(userId: number,label: string, url: string, username: string, password: string) {
@@ -12,4 +12,25 @@ export async function createNewCredential(userId: number,label: string, url: str
     const cryptr = new Cryptr(process.env.KEY)
     const encryptedPassword = cryptr.encrypt(password);
     await insertCredential(userId, url, username, label, encryptedPassword)
+}
+
+export async function getCredential(userId:number, label?: string) {
+    if(label){
+        const cryptr = new Cryptr(process.env.KEY)
+        const credential = await getCrendentialByLabel(userId, label)
+        const cleanPassword = cryptr.decrypt(credential.password)
+        return {...credential, password: cleanPassword}
+    }else{
+        const credentials = await getAllCrendentialById(userId)
+        const cryptr = new Cryptr(process.env.KEY)
+
+        const passwordCredential = credentials.map(cred => { 
+            const cleanPassword = cryptr.decrypt(cred.password)
+            return { ...cred, password: cleanPassword }
+        }
+
+        )
+       return passwordCredential
+
+    }
 }
